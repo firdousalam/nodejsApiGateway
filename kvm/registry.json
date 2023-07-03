@@ -1,0 +1,25 @@
+{
+    "service" : {
+        "testapi" : {
+            "apiName" : "testapi",
+            "host"    : "http://localhost",
+            "port"    : 3000,
+            "url"     : "http://localhost:3000/",
+            "method"  : "get"
+        },
+        "fakeapi" : {
+            "apiName" : "fakeapi",
+            "host"    : "http://localhost",
+            "port"    : 3000,
+            "url"     : "http://localhost:3000/",
+            "method"  : "get"
+        },
+        "bogusapi" : {
+            "apiName" : "bogusapi",
+            "host"    : "http://localhost",
+            "port"    : 3000,
+            "url"     : "http://localhost:3000/",
+            "method"  : "post"
+        }
+    }
+}

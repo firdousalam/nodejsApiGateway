@@ -6,7 +6,7 @@ app.get("/fakeapi",(req,res,next)=>{
     res.send("Hello World from fake server");
 });
 app.post("/bogusApi",(req,res,next)=>{
-    res.send("Hello World from Bogus server");
+    res.send("Hello World from Bogus server"+req.body);
 });
 app.listen(port,()=>{
     console.log("my gateway got started in port 3001");

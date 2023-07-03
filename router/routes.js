@@ -1,14 +1,51 @@
 const express = require("express");
 const router = express.Router();
 const axios = require("axios");
-const registry = require("./kvm/registry.json")
-router.all("/:apiName/:pathName",(req,res)=>{
+const registry = require("../kvm/registry.json");
+//console.log(registry);
+router.all("/proxy/:apiName",(req,res)=>{
+    console.log("API get Called");
     // we will write all logic here for API Gateway
-    if(typeof registry.services[req.params.apiName] != 'undefined')
+    console.log(req.params.apiName);
+   // console.log(registry)
+    if(typeof registry.service[req.params.apiName] != 'undefined')
     {
+        const url = registry.service[req.params.apiName].url+registry.service[req.params.apiName].apiName;
+        console.log(url)
         axios({
             "method" :  req.method,
-            "url"    :  registry.services[req.params.apiName].url+req.params.pathName,
+            "url"    : url ,
+            "headers": req.headers,
+            "data"   : req.body
+        }).then((response)=>{
+            if(typeof response.data !='undefined'){  
+                res.send(response.data);
+            }
+            else
+            {
+                res.status(500).send(response);
+            }
+        }).catch((error)=>{
+            res.status(500).send(error);
+        })
+    } else{
+        res.status(404).send("API not found");
+    }
+})
+/*
+router.all('/testapi/:apiName/:pathName',(req,res)=>{
+    console.log("API get Called");
+    // we will write all logic here for API Gateway
+    console.log(req.params.apiName);
+    console.log(registry.services)
+    if(typeof registry.services[req.params.apiName] != 'undefined')
+    {
+        console.log(req.method);
+        console.log(registry.services[req.params.apiName].url+"/"+registry.services[req.params.apiName].apiName+req.params.pathName)
+        const url = registry.services[req.params.apiName].url+"/"+registry.services[req.params.apiName].apiName+req.params.pathName;
+        axios({
+            "method" :  req.method,
+            "url"    : url ,
             "headers": req.headers,
             "data"   : req.body
         }).then((response)=>{
@@ -86,7 +123,7 @@ router.all("/:apiName/:pathName",(req,res)=>{
                 res.status(500).send(error);
             })
         }
-        */
+       
     }
     else{
         res.status(404).send("API not found");
@@ -94,5 +131,5 @@ router.all("/:apiName/:pathName",(req,res)=>{
     
 })
 
-
+*/
 module.exports = router;
